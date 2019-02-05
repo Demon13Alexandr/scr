@@ -2,6 +2,10 @@ on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
+    DEPLOY_PROVIDER: bintray
+    BINTRAY_ACCOUNT: alexpux
+    BINTRAY_REPOSITORY: msys2
+    PACMAN_REPOSITORY_NAME: ci.msys
     BUILD_URL: https://ci.appveyor.com/project/$(APPVEYOR_ACCOUNT_NAME)/$(APPVEYOR_PROJECT_NAME)/build/$(APPVEYOR_BUILD_VERSION)
     appveyor: natasa123
 
@@ -9,7 +13,8 @@ init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 build_script:
-    
+    - C:\msys64\usr\bin\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
+    - C:\msys64\usr\bin\bash --login -c "$(cygpath ${APPVEYOR_BUILD_FOLDER})/ci-build.sh"
 
 artifacts:
     - path: '$(BUILD)\*'
