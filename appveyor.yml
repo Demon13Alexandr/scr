@@ -1,12 +1,6 @@
-environment:
-   
-    BUILD_URL: https://ci.appveyor.com/project/$(APPVEYOR_ACCOUNT_NAME)/$(APPVEYOR_PROJECT_NAME)/build/$(APPVEYOR_BUILD_VERSION)
-    appveyor: natasa123
-
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
 ps: | # update and init submodules
-git clone https://chromium.googlesource.com/chromium/src
-  
+git clone https://chromium.googlesource.com/chromium/
