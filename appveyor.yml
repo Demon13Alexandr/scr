@@ -9,6 +9,8 @@ init:
 install:
 ps: | # update and init submodules
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git                  
-git clone https://chromium.googlesource.com/chromium/src
+
 build_script:
+ps: | # update and init submodules
+git clone https://chromium.googlesource.com/chromium/src
     
