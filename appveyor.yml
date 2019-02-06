@@ -1,6 +1,3 @@
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 environment:
     DEPLOY_PROVIDER: bintray
     BINTRAY_ACCOUNT: alexpux
@@ -12,23 +9,9 @@ environment:
 init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
+install:
+ps: | # update and init submodules
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git                  
+git clone https://chromium.googlesource.com/chromium/src
 build_script:
-    - C:\msys64\usr\bin\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
-    - C:\msys64\usr\bin\bash --login -c "$(cygpath ${APPVEYOR_BUILD_FOLDER})/ci-build.sh"
-
-artifacts:
-    - path: '$(BUILD)\*'
     
-
-deploy:
-    - provider: BinTray
-      username: $(BINTRAY_ACCOUNT)
-      subject: $(BINTRAY_ACCOUNT)
-      repo: $(BINTRAY_REPOSITORY)
-      package: $(PACMAN_REPOSITORY_NAME)
-      version: latest
-      publish: true
-      override: true
-      api_key:
-          secure: B2XBLbsX8EQOpWyyaHskipMoF2+Tbt6hc/afbVm82f01CBKruspjwhee4K4C7/xf
-     
