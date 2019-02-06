@@ -3,4 +3,4 @@ init:
 
 install:
 ps: | # update and init submodules
-git clone https://chromium.googlesource.com/chromium/
+git clone https://chromium.googlesource.com/chromium/src.git
